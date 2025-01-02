@@ -42,7 +42,8 @@ class VisualPinballXMapper:
 
         self.joystick_digital_last_press = XboxControllerDigitalEnum._.value
         self.keyboard_digital_last_press = None
-        self.joystick_trriger_r_last_press = None
+
+        self.joystick_trigger_r_last_press = None
 
     def run(self):
         while True:
@@ -148,10 +149,10 @@ class VisualPinballXMapper:
                                 self.logger.info(
                                     f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
                                 )
-                                self.joystick_trriger_r_last_press = (
+                                self.joystick_trigger_r_last_press = (
                                     VpxKeyboardEnum.PLUNGER.value
                                 )
-                            elif self.joystick_trriger_r_last_press is not None:
+                            elif self.joystick_trigger_r_last_press is not None:
                                 kb_func = "release"
                                 getattr(self.keyboard, kb_func)(
                                     VpxKeyboardEnum.PLUNGER.value
@@ -159,7 +160,7 @@ class VisualPinballXMapper:
                                 self.logger.info(
                                     f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
                                 )
-                                self.joystick_trriger_r_last_press = None
+                                self.joystick_trigger_r_last_press = None
 
                         case _:
                             pass
