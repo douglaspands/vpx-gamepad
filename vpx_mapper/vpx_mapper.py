@@ -42,7 +42,7 @@ class VisualPinballXMapper:
 
         self.joystick_digital_last_press = XboxControllerDigitalEnum._.value
         self.keyboard_digital_last_press = None
-        self.joystick_axis_last_press = None
+        self.joystick_trriger_r_last_press = None
 
     def run(self):
         while True:
@@ -60,6 +60,11 @@ class VisualPinballXMapper:
                             )
                             self.logger.info(
                                 f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.A=} > {VpxKeyboardEnum.PLUNGER=}"
+                            )
+                        case XboxControllerButtonEnum.X:
+                            getattr(self.keyboard, kb_func)(VpxKeyboardEnum.COIN.value)
+                            self.logger.info(
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.X=} > {VpxKeyboardEnum.COIN=}"
                             )
                         case XboxControllerButtonEnum.LB:
                             getattr(self.keyboard, kb_func)(
@@ -134,33 +139,27 @@ class VisualPinballXMapper:
 
                 elif event.type == pygame.JOYAXISMOTION:
                     match event.axis:
-                        case XboxControllerTriggerEnum.LT:
-                            if event.value > 0.0:
+                        case XboxControllerTriggerEnum.RT.value:
+                            if event.value > -1.0:
                                 kb_func = "press"
                                 getattr(self.keyboard, kb_func)(
-                                    VpxKeyboardEnum.COIN.value
+                                    VpxKeyboardEnum.PLUNGER.value
                                 )
                                 self.logger.info(
-                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.LT=} ({event.value}) > {VpxKeyboardEnum.COIN=}"
+                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
                                 )
-                                self.joystick_axis_last_press = (
-                                    VpxKeyboardEnum.COIN.value
+                                self.joystick_trriger_r_last_press = (
+                                    VpxKeyboardEnum.PLUNGER.value
                                 )
-                            elif self.joystick_axis_last_press is not None:
+                            elif self.joystick_trriger_r_last_press is not None:
                                 kb_func = "release"
                                 getattr(self.keyboard, kb_func)(
-                                    VpxKeyboardEnum.COIN.value
+                                    VpxKeyboardEnum.PLUNGER.value
                                 )
                                 self.logger.info(
-                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.LT=} ({event.value}) > {VpxKeyboardEnum.COIN=}"
+                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
                                 )
-                                self.joystick_axis_last_press = None
-
-                        case XboxControllerTriggerEnum.RT.value:
-                            axis = self.joystick.get_axis(
-                                XboxControllerTriggerEnum.RT.value
-                            )
-                            self.logger.debug(f"{axis=}")
+                                self.joystick_trriger_r_last_press = None
 
                         case _:
                             pass
