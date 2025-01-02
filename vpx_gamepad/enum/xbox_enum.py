@@ -7,7 +7,7 @@ class XboxControllerButtonEnum(IntEnum):
     LB = 4
     RB = 5
     A = 0
-    B = 0
+    B = 1
     X = 2
     Y = 3
 
@@ -18,6 +18,10 @@ class XboxControllerDigitalEnum(Enum):
     DOWN = (0, -1)
     RIGHT = (1, 0)
     LEFT = (-1, 0)
+    UP_LEFT = (-1, 1)
+    UP_RIGHT = (1, 1)
+    DONW_LEFT = (-1, -1)
+    DOWN_RIGHT = (1, -1)
 
 
 class XboxControllerTriggerEnum(IntEnum):

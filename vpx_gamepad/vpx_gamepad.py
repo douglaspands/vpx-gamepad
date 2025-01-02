@@ -5,18 +5,18 @@ import logging
 import pygame
 from pynput.keyboard import Controller
 
-from vpx_mapper.enum.gamepad_enum import GamepadEnum
-from vpx_mapper.enum.vpx_keyboard_enum import VpxKeyboardEnum
-from vpx_mapper.enum.xbox_enum import (
+from vpx_gamepad.enum.gamepad_enum import GamepadEnum
+from vpx_gamepad.enum.vpx_keyboard_enum import VpxKeyboardEnum
+from vpx_gamepad.enum.xbox_enum import (
     XboxControllerButtonEnum,
     XboxControllerDigitalEnum,
     XboxControllerTriggerEnum,
 )
 
 
-class VisualPinballXMapper:
+class VisualPinballXGamepad:
     def __init__(self, verbose=False):
-        self.logger = logging.getLogger(VisualPinballXMapper.__name__)
+        self.logger = logging.getLogger("vpx_gamepad")
         self.logger.setLevel(logging.DEBUG if verbose else logging.INFO)
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(
@@ -26,7 +26,7 @@ class VisualPinballXMapper:
             )
         )
         self.logger.addHandler(console_handler)
-        self.logger.info(f"{VisualPinballXMapper.__name__} init")
+        self.logger.info(f"Welcome to {VisualPinballXGamepad.__name__}")
 
         self.keyboard = Controller()
 
@@ -36,7 +36,7 @@ class VisualPinballXMapper:
         self.joystick.init()
 
         if self.joystick.get_name() not in GamepadEnum:
-            raise Exception(f"Controller not supported {self.joystick.get_name()}")
+            raise Exception(f"Gamepad not supported {self.joystick.get_name()}")
 
         self.logger.info(f"Using gamepad: {self.joystick.get_name()}")
 
@@ -56,11 +56,16 @@ class VisualPinballXMapper:
                     )
                     match event.button:
                         case XboxControllerButtonEnum.A:
+                            getattr(self.keyboard, kb_func)(VpxKeyboardEnum.START.value)
+                            self.logger.info(
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.A=} > {VpxKeyboardEnum.START=}"
+                            )
+                        case XboxControllerButtonEnum.B:
                             getattr(self.keyboard, kb_func)(
                                 VpxKeyboardEnum.PLUNGER.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.A=} > {VpxKeyboardEnum.PLUNGER=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.B=} > {VpxKeyboardEnum.PLUNGER=}"
                             )
                         case XboxControllerButtonEnum.X:
                             getattr(self.keyboard, kb_func)(VpxKeyboardEnum.COIN.value)
@@ -169,4 +174,4 @@ class VisualPinballXMapper:
                     pass
 
 
-__all__ = ("VisualPinballXMapper",)
+__all__ = ("VisualPinballXGamepad",)

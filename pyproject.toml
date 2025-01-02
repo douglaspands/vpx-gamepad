@@ -1,20 +1,27 @@
 [tool.poetry]
-name = "vpx-mapper-py"
-version = "0.6.0"
-description = "Visual Pinball X - Controller Mapper"
+name = "vpx-gamepad"
+version = "0.7.0"
+description = "Visual Pinball X - Gamepad Mapper"
 authors = ["Douglas Panhota <douglaspands@gmail.com>"]
 readme = "README.md"
-package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.14"
+python = ">=3.9,<3.14"
 pygame = "^2.6.1"
 pynput = "^1.7.7"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.8.4"
 pyinstaller = "^6.11.1"
+pillow = "^11.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+build = "script.poetry:build"
+lint = "script.poetry:lint"
+format = "script.poetry:format"
+start = "script.poetry:start"
+maker_ico = "script.poetry:maker_ico"

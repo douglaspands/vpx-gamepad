@@ -1,6 +1,6 @@
-# Visual Pinball X Mapper
-Mapeador do controle do XBOX para o Teclado.
-Projeto iniciado para usar o [Virtual Pinball X](https://www.vpforums.org/index.php?app=tutorials&article=1).
+# Visual Pinball X Gamepad Mapper
+Mapeador de gamepad para o Teclado.
+Projeto iniciado para usar o [Virtual Pinball X](https://www.vpforums.org/index.php?app=tutorials&article=1) no controle do XBoX.
 
 ## Como usar
 Essa aplicação é feita para rodar no Windows.
@@ -20,11 +20,4 @@ poetry install
 ### Iniciar
 ```sh
 python .\app.py
-```
-
-## Desenvolvedor
-
-### Compilar e empacotar o código
-```sh
-pyinstaller -F --python-option "PYTHONDONTWRITEBYTECODE=1" --optimize 2 --name 'vpx_mapper.exe' app.py
 ```

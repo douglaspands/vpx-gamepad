@@ -1,12 +1,12 @@
 import argparse
 
-from vpx_mapper import VisualPinballXMapper
+from vpx_gamepad import VisualPinballXGamepad
 
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="vpx_mapper.exe",
-        description="Visual Pinball X - Controller Mapper (v0.6.0)",
+        prog="vpx_gamepad.exe",
+        description="Visual Pinball X - Gamepad Mapper (v0.7.0)",
     )
     parser.add_argument(
         "-v",
@@ -17,8 +17,7 @@ def main():
     )
     args = parser.parse_args()
     try:
-        vpx_mapper = VisualPinballXMapper(verbose=args.verbose)
-        vpx_mapper.run()
+        VisualPinballXGamepad(verbose=args.verbose).run()
     except KeyboardInterrupt:
         print("It was interrupted by the user.")
 
