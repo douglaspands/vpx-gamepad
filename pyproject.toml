@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "vpx-mapper-py"
+version = "0.4.0"
+description = "Visual Pinball X - Controller Mapper"
+authors = ["Douglas Panhota <douglaspands@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pygame = "^2.6.1"
+pynput = "^1.7.7"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.8.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
