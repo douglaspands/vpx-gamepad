@@ -1,17 +1,12 @@
 import argparse
 
-import tomllib
-
 from vpx_mapper import VisualPinballXMapper
-
-with open("pyproject.toml", "rb") as f:
-    pyproj = tomllib.load(f)
 
 
 def main():
     parser = argparse.ArgumentParser(
         prog="vpx_mapper.exe",
-        description=f"{pyproj["tool"]["poetry"]["description"]} (v{pyproj["tool"]["poetry"]["version"]})",
+        description="Visual Pinball X - Controller Mapper (v0.6.0)",
     )
     parser.add_argument(
         "-v",

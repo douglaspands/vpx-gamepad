@@ -9,7 +9,7 @@ Essa aplicação é feita para rodar no Windows.
 ### Requisitos
 - Python 3.12
 
-### Dependencias
+### Virtualenv e dependências
 ```sh
 python -m venv .venv
 .\.venv\Scripts\activate
@@ -20,4 +20,11 @@ poetry install
 ### Iniciar
 ```sh
 python .\app.py
+```
+
+## Desenvolvedor
+
+### Compilar e empacotar o código
+```sh
+pyinstaller -F --python-option "PYTHONDONTWRITEBYTECODE=1" --optimize 2 --name 'vpx_mapper.exe' app.py
 ```
