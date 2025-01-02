@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "vpx-gamepad"
-version = "0.7.0"
+version = "0.7.1"
 description = "Visual Pinball X - Gamepad Mapper"
 authors = ["Douglas Panhota <douglaspands@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
+python = ">=3.12,<3.14"
 pygame = "^2.6.1"
 pynput = "^1.7.7"
 

@@ -15,6 +15,8 @@ from vpx_gamepad.enum.xbox_enum import (
 
 
 class VisualPinballXGamepad:
+    __version__ = "v0.7.1"
+
     def __init__(self, verbose=False):
         self.logger = logging.getLogger("vpx_gamepad")
         self.logger.setLevel(logging.DEBUG if verbose else logging.INFO)
@@ -26,7 +28,9 @@ class VisualPinballXGamepad:
             )
         )
         self.logger.addHandler(console_handler)
-        self.logger.info(f"Welcome to {VisualPinballXGamepad.__name__}")
+        self.logger.info(
+            f"Welcome to {VisualPinballXGamepad.__name__} {VisualPinballXGamepad.__version__}"
+        )
 
         self.keyboard = Controller()
 

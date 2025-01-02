@@ -6,7 +6,7 @@ from vpx_gamepad import VisualPinballXGamepad
 def main():
     parser = argparse.ArgumentParser(
         prog="vpx_gamepad.exe",
-        description="Visual Pinball X - Gamepad Mapper (v0.7.0)",
+        description=f"Visual Pinball X - Gamepad Mapper {VisualPinballXGamepad.__version__}",
     )
     parser.add_argument(
         "-v",
@@ -15,9 +15,21 @@ def main():
         default=False,
         help="print verbose output",
     )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="store_true",
+        default=False,
+        help="print the version number and exit",
+    )
     args = parser.parse_args()
     try:
-        VisualPinballXGamepad(verbose=args.verbose).run()
+        if args.version:
+            print(
+                f"{VisualPinballXGamepad.__name__} {VisualPinballXGamepad.__version__}"
+            )
+        else:
+            VisualPinballXGamepad(verbose=args.verbose).run()
     except KeyboardInterrupt:
         print("It was interrupted by the user.")
 
