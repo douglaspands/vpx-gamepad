@@ -15,7 +15,7 @@ from vpx_gamepad.enum.xbox_enum import (
 
 
 class VisualPinballXGamepad:
-    __version__ = "v0.7.1"
+    __version__ = "v0.7.2"
 
     def __init__(self, verbose=False):
         self.logger = logging.getLogger("vpx_gamepad")
@@ -23,7 +23,8 @@ class VisualPinballXGamepad:
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(
             logging.Formatter(
-                "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)-8s - %(message)s",
+                # "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)-8s - %(message)s",
+                fmt="%(asctime)s.%(msecs)03d - %(levelname)-8s - %(message)s",
                 datefmt=r"%Y-%m-%d %H:%M:%S",
             )
         )
@@ -62,43 +63,43 @@ class VisualPinballXGamepad:
                         case XboxControllerButtonEnum.A:
                             getattr(self.keyboard, kb_func)(VpxKeyboardEnum.START.value)
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.A=} > {VpxKeyboardEnum.START=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.A!r} => {VpxKeyboardEnum.START!r}"
                             )
                         case XboxControllerButtonEnum.B:
                             getattr(self.keyboard, kb_func)(
                                 VpxKeyboardEnum.PLUNGER.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.B=} > {VpxKeyboardEnum.PLUNGER=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.B!r} => {VpxKeyboardEnum.PLUNGER!r}"
                             )
                         case XboxControllerButtonEnum.X:
                             getattr(self.keyboard, kb_func)(VpxKeyboardEnum.COIN.value)
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.X=} > {VpxKeyboardEnum.COIN=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.X!r} => {VpxKeyboardEnum.COIN!r}"
                             )
                         case XboxControllerButtonEnum.LB:
                             getattr(self.keyboard, kb_func)(
                                 VpxKeyboardEnum.LEFT_FLIPPER.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.LB=} > {VpxKeyboardEnum.LEFT_FLIPPER=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.LB!r} => {VpxKeyboardEnum.LEFT_FLIPPER!r}"
                             )
                         case XboxControllerButtonEnum.RB:
                             getattr(self.keyboard, kb_func)(
                                 VpxKeyboardEnum.RIGHT_FLIPPER.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.RB=} > {VpxKeyboardEnum.RIGHT_FLIPPER=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.RB!r} => {VpxKeyboardEnum.RIGHT_FLIPPER!r}"
                             )
                         case XboxControllerButtonEnum.SELECT:
                             getattr(self.keyboard, kb_func)(VpxKeyboardEnum.PAUSE.value)
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.SELECT=} > {VpxKeyboardEnum.PAUSE=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.SELECT!r} => {VpxKeyboardEnum.PAUSE!r}"
                             )
                         case XboxControllerButtonEnum.START:
                             getattr(self.keyboard, kb_func)(VpxKeyboardEnum.START.value)
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.START=} > {VpxKeyboardEnum.START=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerButtonEnum.START!r} => {VpxKeyboardEnum.START!r}"
                             )
                         case _:
                             pass
@@ -111,7 +112,7 @@ class VisualPinballXGamepad:
                                 VpxKeyboardEnum.LEFT_MAGNA.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerDigitalEnum.LEFT=} > {VpxKeyboardEnum.LEFT_MAGNA=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerDigitalEnum.LEFT!r} => {VpxKeyboardEnum.LEFT_MAGNA!r}"
                             )
                             self.joystick_digital_last_press = (
                                 XboxControllerDigitalEnum.LEFT
@@ -124,7 +125,7 @@ class VisualPinballXGamepad:
                                 VpxKeyboardEnum.RIGHT_MAGNA.value
                             )
                             self.logger.info(
-                                f"{kb_func.capitalize():7} : {XboxControllerDigitalEnum.RIGHT=} > {VpxKeyboardEnum.RIGHT_MAGNA=}"
+                                f"{kb_func.capitalize():7} : {XboxControllerDigitalEnum.RIGHT!r} => {VpxKeyboardEnum.RIGHT_MAGNA!r}"
                             )
                             self.joystick_digital_last_press = (
                                 XboxControllerDigitalEnum.RIGHT
@@ -140,7 +141,7 @@ class VisualPinballXGamepad:
                                     self.keyboard_digital_last_press.value
                                 )
                                 self.logger.info(
-                                    f"{kb_func.capitalize():7} : {self.joystick_digital_last_press=} > {self.keyboard_digital_last_press=}"
+                                    f"{kb_func.capitalize():7} : {self.joystick_digital_last_press!r} => {self.keyboard_digital_last_press!r}"
                                 )
                                 self.joystick_digital_last_press = (
                                     XboxControllerDigitalEnum._.value
@@ -156,7 +157,7 @@ class VisualPinballXGamepad:
                                     VpxKeyboardEnum.PLUNGER.value
                                 )
                                 self.logger.info(
-                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
+                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
                                 )
                                 self.joystick_trigger_r_last_press = (
                                     VpxKeyboardEnum.PLUNGER.value
@@ -167,7 +168,7 @@ class VisualPinballXGamepad:
                                     VpxKeyboardEnum.PLUNGER.value
                                 )
                                 self.logger.info(
-                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT=} ({event.value}) > {VpxKeyboardEnum.PLUNGER=}"
+                                    f"{kb_func.capitalize():7} : {XboxControllerTriggerEnum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
                                 )
                                 self.joystick_trigger_r_last_press = None
 
