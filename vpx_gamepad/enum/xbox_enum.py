@@ -1,5 +1,7 @@
 from enum import Enum, IntEnum
 
+import pygame
+
 
 class XboxControllerButtonEnum(IntEnum):
     SELECT = 6
@@ -27,3 +29,16 @@ class XboxControllerDigitalEnum(Enum):
 class XboxControllerTriggerEnum(IntEnum):
     LT = 4
     RT = 5
+
+
+class XboxControllerAnalogicEnum(IntEnum):
+    LEFT_X = 0
+    LEFT_Y = 1
+    RIGHT_X = 2
+    RIGHT_Y = 3
+
+
+class XboxControllerEventEnum(Enum):
+    DIGITAL = (pygame.JOYHATMOTION,)
+    BUTTON = (pygame.JOYBUTTONDOWN, pygame.JOYBUTTONUP)
+    ANALOGIC_OR_TRIGGER = (pygame.JOYAXISMOTION,)
