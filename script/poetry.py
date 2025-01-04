@@ -4,8 +4,13 @@ from pathlib import Path
 from PIL import Image
 
 
+def shell_run(cmd: str):
+    print(f"$ {cmd}")
+    os.system(cmd)
+
+
 def build():
-    os.system(
+    shell_run(
         " ".join(
             [
                 "pyinstaller",
@@ -18,6 +23,8 @@ def build():
                 "vpx_gamepad.exe",
                 "--icon",
                 ".\\script\\vpx_cm.ico",
+                "--runtime-hook",
+                ".\\script\\hook.py",
                 "--console",
                 ".\\app.py",
             ]
@@ -26,18 +33,18 @@ def build():
 
 
 def maker_ico():
-    image_file = Path("script") / "vpx_cm.jpeg"
+    image_file = Path(input("Enter the file path: "))
     jpeg_image = Image.open(image_file.open("rb"))
     jpeg_image.save(image_file.with_suffix(".ico"), format="ICO")
 
 
 def lint():
-    os.system("ruff check .")
+    shell_run("ruff check .")
 
 
 def format():
-    os.system("ruff format .")
+    shell_run("ruff format .")
 
 
 def start():
-    os.system("python .\\app.py")
+    shell_run("python .\\app.py")
