@@ -4,14 +4,23 @@ on:
   release:
     types: [created]
 
+  workflow_dispatch:
+    inputs:
+      TAG_NAME:
+        description: 'Tag name that the major tag will point to'
+        required: true
+
+env:
+  TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
-
-    steps:
-    - name: Set release version
-      run: echo "RELEASE_VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
     
+    steps:
     - name: Check out repository
       uses: actions/checkout@v2
 
@@ -32,10 +41,14 @@ jobs:
 
     - name: Zip the executable
       run: |
-        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath "vpx_gamepad_${{ env.RELEASE_VERSION }}.zip"
+        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath "vpx_gamepad_${{ env.TAG_NAME }}.zip"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: vpx_gamepad_${{ env.RELEASE_VERSION }}.zip
-        path: vpx_gamepad_${{ env.RELEASE_VERSION }}.zip
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./vpx_gamepad_${{ env.TAG_NAME }}.zip
+        asset_name: vpx_gamepad_${{ env.TAG_NAME }}.zip
+        asset_content_type: application/zip
