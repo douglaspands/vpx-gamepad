@@ -20,7 +20,7 @@ from vpx_gamepad.enum.xbox_enum import (
 
 class VisualPinballXGamepad:
     __description__ = "Visual Pinball X - Gamepad Mapper"
-    __version__ = "v0.8.6"
+    __version__ = "v0.8.7"
 
     GAMEPAD_DEVICE_NUMBER = 0
     GAMEPAD_PRESS_BUTTON = "press"
