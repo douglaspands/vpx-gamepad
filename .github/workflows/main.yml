@@ -30,7 +30,7 @@ jobs:
     - name: Zip the executable
       run: |
         $version = $env.GITHUB_REF_NAME
-        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath vpx_gamepad_$version.zip
+        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath "vpx_gamepad_$version.zip"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
