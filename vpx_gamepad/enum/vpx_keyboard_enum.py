@@ -12,3 +12,7 @@ class VpxKeyboardEnum(Enum):
     LEFT_MAGNA = Key.ctrl_l
     RIGHT_MAGNA = Key.ctrl_r
     PAUSE = Key.esc
+    NUDGE_LEFT = "Z"
+    NUDGE_FWD = Key.space
+    NUDGE_RIGHT = "/"
+    TILT_MECH = "T"

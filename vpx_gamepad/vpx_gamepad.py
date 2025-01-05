@@ -20,11 +20,14 @@ from vpx_gamepad.enum.xbox_enum import (
 
 class VisualPinballXGamepad:
     __description__ = "Visual Pinball X - Gamepad Mapper"
-    __version__ = "v0.8.7"
+    __version__ = "v0.9.0"
 
     GAMEPAD_DEVICE_NUMBER = 0
     GAMEPAD_PRESS_BUTTON = "press"
     GAMEPAD_RELEASE_BUTTON = "release"
+    GAMEPAD_TURBO_BUTTON = "turbo"
+    GAMEPAD_ANALOGIC_ENABLED = 0.59
+    GAMEPAD_TRIGGER_ENABLED = -1.00
 
     def __init__(self, verbose: bool = False):
         console_handler = logging.StreamHandler()
@@ -73,6 +76,9 @@ class VisualPinballXGamepad:
         self._keyboard_digital_last_press = None
         self._joystick_trigger_r_last_press = None
 
+        self._joystick_analogic_left_x_last_press = None
+        self._joystick_analogic_left_y_last_press = None
+
     def run(self):
         for event in self._get_events():
             self._event_process(event)
@@ -94,39 +100,39 @@ class VisualPinballXGamepad:
                 case self._gamepad_button_enum.A:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.START.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.A!r} => {VpxKeyboardEnum.START!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.A!r} => {VpxKeyboardEnum.START!r}"
                     )
                 case self._gamepad_button_enum.B:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.PLUNGER.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.B!r} => {VpxKeyboardEnum.PLUNGER!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.B!r} => {VpxKeyboardEnum.PLUNGER!r}"
                     )
                 case self._gamepad_button_enum.X:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.COIN.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.X!r} => {VpxKeyboardEnum.COIN!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.X!r} => {VpxKeyboardEnum.COIN!r}"
                     )
                 case self._gamepad_button_enum.LB:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.LEFT_FLIPPER.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.LB!r} => {VpxKeyboardEnum.LEFT_FLIPPER!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.LB!r} => {VpxKeyboardEnum.LEFT_FLIPPER!r}"
                     )
                 case self._gamepad_button_enum.RB:
                     getattr(self._keyboard, kb_func)(
                         VpxKeyboardEnum.RIGHT_FLIPPER.value
                     )
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.RB!r} => {VpxKeyboardEnum.RIGHT_FLIPPER!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.RB!r} => {VpxKeyboardEnum.RIGHT_FLIPPER!r}"
                     )
                 case self._gamepad_button_enum.SELECT:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.PAUSE.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.SELECT!r} => {VpxKeyboardEnum.PAUSE!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.SELECT!r} => {VpxKeyboardEnum.PAUSE!r}"
                     )
                 case self._gamepad_button_enum.START:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.START.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_button_enum.START!r} => {VpxKeyboardEnum.START!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_button_enum.START!r} => {VpxKeyboardEnum.START!r}"
                     )
                 case _:
                     pass
@@ -137,14 +143,14 @@ class VisualPinballXGamepad:
                 case self._gamepad_digital_enum.LEFT.value:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.LEFT_MAGNA.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_digital_enum.LEFT!r} => {VpxKeyboardEnum.LEFT_MAGNA!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_digital_enum.LEFT!r} => {VpxKeyboardEnum.LEFT_MAGNA!r}"
                     )
                     self._joystick_digital_last_press = self._gamepad_digital_enum.LEFT
                     self._keyboard_digital_last_press = VpxKeyboardEnum.LEFT_MAGNA
                 case self._gamepad_digital_enum.RIGHT.value:
                     getattr(self._keyboard, kb_func)(VpxKeyboardEnum.RIGHT_MAGNA.value)
                     self._logger.info(
-                        f"{kb_func.capitalize():7} : {self._gamepad_digital_enum.RIGHT!r} => {VpxKeyboardEnum.RIGHT_MAGNA!r}"
+                        f"{kb_func.capitalize():12} : {self._gamepad_digital_enum.RIGHT!r} => {VpxKeyboardEnum.RIGHT_MAGNA!r}"
                     )
                     self._joystick_digital_last_press = self._gamepad_digital_enum.RIGHT
                     self._keyboard_digital_last_press = VpxKeyboardEnum.RIGHT_MAGNA
@@ -156,7 +162,7 @@ class VisualPinballXGamepad:
                             self._keyboard_digital_last_press.value
                         )
                         self._logger.info(
-                            f"{kb_func.capitalize():7} : {self._joystick_digital_last_press!r} => {self._keyboard_digital_last_press!r}"
+                            f"{kb_func.capitalize():12} : {self._joystick_digital_last_press!r} => {self._keyboard_digital_last_press!r}"
                         )
                         self._joystick_digital_last_press = (
                             self._gamepad_digital_enum._.value
@@ -166,22 +172,53 @@ class VisualPinballXGamepad:
         elif event.type in self._gamepad_event_enum.ANALOGIC_OR_TRIGGER.value:
             match event.axis:
                 case self._gamepad_trigger_enum.RT.value:
-                    if event.value > -1.0:
-                        kb_func = VisualPinballXGamepad.GAMEPAD_PRESS_BUTTON
-                        getattr(self._keyboard, kb_func)(VpxKeyboardEnum.PLUNGER.value)
-                        self._logger.info(
-                            f"{kb_func.capitalize():7} : {self._gamepad_trigger_enum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
-                        )
-                        self._joystick_trigger_r_last_press = (
-                            VpxKeyboardEnum.PLUNGER.value
-                        )
+                    if event.value > VisualPinballXGamepad.GAMEPAD_TRIGGER_ENABLED:
+                        if self._joystick_trigger_r_last_press is None:
+                            kb_func = VisualPinballXGamepad.GAMEPAD_PRESS_BUTTON
+                            getattr(self._keyboard, kb_func)(
+                                VpxKeyboardEnum.PLUNGER.value
+                            )
+                            self._logger.info(
+                                f"{kb_func.capitalize():12} : {self._gamepad_trigger_enum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
+                            )
+                            self._joystick_trigger_r_last_press = (
+                                VpxKeyboardEnum.PLUNGER.value
+                            )
                     elif self._joystick_trigger_r_last_press is not None:
                         kb_func = VisualPinballXGamepad.GAMEPAD_RELEASE_BUTTON
                         getattr(self._keyboard, kb_func)(VpxKeyboardEnum.PLUNGER.value)
                         self._logger.info(
-                            f"{kb_func.capitalize():7} : {self._gamepad_trigger_enum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
+                            f"{kb_func.capitalize():12} : {self._gamepad_trigger_enum.RT!r} ({event.value}) => {VpxKeyboardEnum.PLUNGER!r}"
                         )
                         self._joystick_trigger_r_last_press = None
+
+                case self._gamepad_analogic_enum.LEFT_X:
+                    if event.value <= (
+                        VisualPinballXGamepad.GAMEPAD_ANALOGIC_ENABLED * -1
+                    ):
+                        kb_func = VisualPinballXGamepad.GAMEPAD_TURBO_BUTTON
+                        self._logger.info(
+                            f"{kb_func.capitalize() + " [fake]":12} : {self._gamepad_analogic_enum.LEFT_X!r} ({event.value}) => {VpxKeyboardEnum.NUDGE_LEFT!r}"
+                        )
+                    elif event.value >= VisualPinballXGamepad.GAMEPAD_ANALOGIC_ENABLED:
+                        kb_func = VisualPinballXGamepad.GAMEPAD_TURBO_BUTTON
+                        self._logger.info(
+                            f"{kb_func.capitalize() + " [fake]":12} : {self._gamepad_analogic_enum.LEFT_X!r} ({event.value}) => {VpxKeyboardEnum.NUDGE_RIGHT!r}"
+                        )
+
+                case self._gamepad_analogic_enum.LEFT_Y:
+                    if event.value <= (
+                        VisualPinballXGamepad.GAMEPAD_ANALOGIC_ENABLED * -1
+                    ):
+                        kb_func = VisualPinballXGamepad.GAMEPAD_TURBO_BUTTON
+                        self._logger.info(
+                            f"{kb_func.capitalize() + " [fake]":12} : {self._gamepad_analogic_enum.LEFT_Y!r} ({event.value}) => {VpxKeyboardEnum.NUDGE_FWD!r}"
+                        )
+                    elif event.value >= VisualPinballXGamepad.GAMEPAD_ANALOGIC_ENABLED:
+                        kb_func = VisualPinballXGamepad.GAMEPAD_TURBO_BUTTON
+                        self._logger.info(
+                            f"{kb_func.capitalize() + " [fake]":12} : {self._gamepad_analogic_enum.LEFT_Y!r} ({event.value}) => {VpxKeyboardEnum.TILT_MECH!r}"
+                        )
 
                 case _:
                     pass
