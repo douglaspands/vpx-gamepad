@@ -43,6 +43,7 @@ def lint():
 
 
 def format():
+    shell_run("ruff check --select I --fix .")
     shell_run("ruff format .")
 
 

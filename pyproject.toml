@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vpx-gamepad"
-version = "0.9.0"
+version = "0.10.0"
 description = "Visual Pinball X - Gamepad Mapper"
 authors = ["Douglas Panhota <douglaspands@gmail.com>"]
 readme = "README.md"
