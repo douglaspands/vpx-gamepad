@@ -9,6 +9,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Set release version
+      run: echo "RELEASE_VERSION=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+    
     - name: Check out repository
       uses: actions/checkout@v2
 
@@ -29,11 +32,10 @@ jobs:
 
     - name: Zip the executable
       run: |
-        $version = $env.GITHUB_REF_NAME
-        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath vpx_gamepad_$version.zip
+        powershell Compress-Archive -Path dist\vpx_gamepad.exe -DestinationPath "vpx_gamepad_${{ env.RELEASE_VERSION }}.zip"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: vpx_gamepad_$version.zip
-        path: vpx_gamepad_$version.zip
+        name: vpx_gamepad_${{ env.RELEASE_VERSION }}.zip
+        path: vpx_gamepad_${{ env.RELEASE_VERSION }}.zip
