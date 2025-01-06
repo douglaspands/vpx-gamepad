@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 
-from PIL import Image
-
 
 def shell_run(cmd: str):
     print(f"$ {cmd}")
@@ -33,6 +31,8 @@ def build():
 
 
 def maker_ico():
+    from PIL import Image
+
     image_file = Path(input("Enter the file path: "))
     jpeg_image = Image.open(image_file.open("rb"))
     jpeg_image.save(image_file.with_suffix(".ico"), format="ICO")
