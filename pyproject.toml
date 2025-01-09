@@ -1,6 +1,6 @@
 [project]
 name = "vpx-gamepad"
-version = "0.11.0"
+version = "0.11.1"
 description = "Visual Pinball X - Gamepad Mapper"
 authors = [{ name = "Douglas Panhota", email = "douglaspands@gmail.com" }]
 readme = "README.md"
@@ -9,7 +9,6 @@ dependencies = ["pygame (>=2.6.1,<3.0.0)", "pyinput (>=0.3.2,<0.4.0)"]
 
 [tool.poetry]
 packages = [{ include = "vpx_gamepad" }]
-package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.8.6"
