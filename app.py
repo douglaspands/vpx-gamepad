@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 import tomllib
 
@@ -6,9 +7,9 @@ from vpx_gamepad import VisualPinballXGamepad
 
 
 def main():
-    with open(r".\pyproject.toml", "rb") as file:
-        project = tomllib.load(file)
-
+    project = tomllib.load(
+        Path(__file__).parent.joinpath("pyproject.toml").resolve().open("rb")
+    )
     parser = argparse.ArgumentParser(
         prog="vpx_gamepad.exe",
         description=f"{project["project"]["description"]} {project["project"]["version"]}",

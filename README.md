@@ -7,7 +7,7 @@ Essa aplicação é feita para rodar no Windows (testado no 11).
 
 ### Requisitos
 - S.O. Windows
-- Python 3.12
+- Python >=3.13,<3.14
 
 ### Virtualenv e dependências
 ```sh

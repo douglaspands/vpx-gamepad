@@ -18,13 +18,13 @@ def build():
                 "--name",
                 "vpx_gamepad.exe",
                 "--icon",
-                r".\script\vpx_cm.ico",
+                ".\\script\\vpx_cm.ico",
                 "--runtime-hook",
-                r".\script\hook.py",
+                ".\\script\\hook.py",
                 "--add-data",
-                r".\pyproject.toml:.\pyproject.toml",
+                ".\\pyproject.toml:.\\",
                 "--console",
-                r".\app.py",
+                ".\\app.py",
             ]
         )
     )
@@ -48,4 +48,4 @@ def format():
 
 
 def start():
-    shell_run("python .\\app.py")
+    shell_run(r"python .\app.py")
