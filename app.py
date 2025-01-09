@@ -12,7 +12,7 @@ def main():
     )
     parser = argparse.ArgumentParser(
         prog="vpx_gamepad.exe",
-        description=f"{project["project"]["description"]} {project["project"]["version"]}",
+        description=f"{project["project"]["description"]} v{project["project"]["version"]}",
     )
     parser.add_argument(
         "-v",
@@ -32,7 +32,7 @@ def main():
     try:
         if args.version:
             print(
-                f"{VisualPinballXGamepad.__name__} {VisualPinballXGamepad.__version__}"
+                f"{project["project"]["description"]} v{project["project"]["version"]}"
             )
         else:
             VisualPinballXGamepad(
