@@ -13,7 +13,7 @@ Essa aplicação é feita para rodar no Windows (testado no 11).
 ```sh
 python -m venv .venv
 .\.venv\Scripts\activate
-pip install poetry
+pip install 'poetry>=2.0.0,<3.0.0'
 poetry install
 ```
 
