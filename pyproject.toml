@@ -1,6 +1,6 @@
 [project]
 name = "vpx-gamepad"
-version = "0.12.0"
+version = "0.12.1"
 description = "Visual Pinball X - Gamepad Mapper"
 authors = [{ name = "Douglas Panhota", email = "douglaspands@gmail.com" }]
 readme = "README.md"
