@@ -19,16 +19,14 @@ from vpx_gamepad.enum.xbox_enum import (
 
 
 class VisualPinballXGamepad:
-    __description__ = "Visual Pinball X - Gamepad Mapper"
-    __version__ = "v0.10.2"
-
     GAMEPAD_DEVICE_NUMBER = 0
     GAMEPAD_PRESS_BUTTON = "press"
     GAMEPAD_RELEASE_BUTTON = "release"
     GAMEPAD_ANALOGIC_ENABLED = 0.59
     GAMEPAD_TRIGGER_ENABLED = -1.00
 
-    def __init__(self, verbose: bool = False):
+    def __init__(self, verbose: bool = False, version: str = "0.0.0"):
+        self._version = version
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(
             logging.Formatter(
@@ -39,8 +37,15 @@ class VisualPinballXGamepad:
         self._logger = logging.getLogger("vpx_gamepad")
         self._logger.setLevel(logging.DEBUG if verbose else logging.INFO)
         self._logger.addHandler(console_handler)
+
+    def run(self):
+        self._prepare()
+        for event in self._get_events():
+            self._event_process(event)
+
+    def _prepare(self):
         self._logger.info(
-            f"Welcome to {VisualPinballXGamepad.__name__} {VisualPinballXGamepad.__version__}"
+            f"Welcome to {VisualPinballXGamepad.__name__} v{self._version}"
         )
 
         self._keyboard = Controller()
@@ -74,10 +79,6 @@ class VisualPinballXGamepad:
         self._keyboard_digital_last_press = None
         self._joystick_trigger_r_last_press = None
         self._joystick_analogic_left_last_press = None
-
-    def run(self):
-        for event in self._get_events():
-            self._event_process(event)
 
     def _get_events(self) -> Generator[Event, None, None]:
         while True:
