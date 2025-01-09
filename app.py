@@ -1,12 +1,17 @@
 import argparse
 
+import tomllib
+
 from vpx_gamepad import VisualPinballXGamepad
 
 
 def main():
+    with open(r".\pyproject.toml", "rb") as file:
+        project = tomllib.load(file)
+
     parser = argparse.ArgumentParser(
         prog="vpx_gamepad.exe",
-        description=f"{VisualPinballXGamepad.__description__} {VisualPinballXGamepad.__version__}",
+        description=f"{project["project"]["description"]} {project["project"]["version"]}",
     )
     parser.add_argument(
         "-v",
@@ -29,7 +34,9 @@ def main():
                 f"{VisualPinballXGamepad.__name__} {VisualPinballXGamepad.__version__}"
             )
         else:
-            VisualPinballXGamepad(verbose=args.verbose).run()
+            VisualPinballXGamepad(
+                verbose=args.verbose, version=project["project"]["version"]
+            ).run()
 
     except KeyboardInterrupt:
         print("It was interrupted by the user.")

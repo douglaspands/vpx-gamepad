@@ -15,16 +15,16 @@ def build():
                 "-F",
                 "--python-option",
                 '"PYTHONDONTWRITEBYTECODE=1"',
-                "--optimize",
-                "2",
                 "--name",
                 "vpx_gamepad.exe",
                 "--icon",
-                ".\\script\\vpx_cm.ico",
+                r".\script\vpx_cm.ico",
                 "--runtime-hook",
-                ".\\script\\hook.py",
+                r".\script\hook.py",
+                "--add-data",
+                r".\pyproject.toml:.\pyproject.toml",
                 "--console",
-                ".\\app.py",
+                r".\app.py",
             ]
         )
     )
